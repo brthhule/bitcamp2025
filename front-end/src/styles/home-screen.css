@@ -1,0 +1,5 @@
+.prev-month:hover,
+.next-month:hover,
+.reset-date:hover {
+  cursor: pointer;
+}

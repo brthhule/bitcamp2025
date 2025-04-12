@@ -2,8 +2,6 @@ import React from 'react'
 import Day from './Day';
 
 function WeekRow({weekDayNumbers, daysWithinMonth}) {
-    console.log("Week row debug")
-    console.log({ weekDayNumbers, daysWithinMonth });
 
 
 
@@ -12,8 +10,6 @@ function WeekRow({weekDayNumbers, daysWithinMonth}) {
     }
 
     const days = [0, 1, 2, 3, 4, 5, 6];
-    console.log("Week row debug")
-    console.log({ weekDayNumbers, daysWithinMonth });
 
     function RenderColumns({dayInTheWeek}) {
         return (

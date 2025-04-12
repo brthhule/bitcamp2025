@@ -3,6 +3,8 @@ import "../styles/generatedoutput.css"
 
 export default function GeneratedOutput() {
     return (
-        <></>
+        <>
+        Output
+        </>
     )
 }
