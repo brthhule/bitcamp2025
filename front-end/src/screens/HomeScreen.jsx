@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material"; 
-import Calendar from 'react-calendar'
+import MonthDiv from "../components/MonthView";
 
 export default function HomeScreen() {
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export default function HomeScreen() {
                 </Typography>
             </Box>
 
-            {/* Calendar Title */}
+            {/* Calendar */}
             <Box>
                 <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
                     Calendar
@@ -22,19 +22,16 @@ export default function HomeScreen() {
                 <Typography variant="h7" sx={{ fontWeight: 'bold', mb: 2 }}>
                     April 2024
                 </Typography>
-                <Calendar>
 
-                </Calendar>
+                <MonthDiv/>
 
                 <Box>
                     <Box>
                         Calendar
                     </Box>
 
-
                 </Box>
                 
-
             </Box>
            
 
