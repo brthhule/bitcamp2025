@@ -67,7 +67,7 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
         let modifier = 0;
         if (!isWithinMonth) { 
             modifier = (date < 15) ? 1 : -1;
-            monthNumber += modifier;
+            monthNumber += modifier + 1;
         }
         return monthNumber + "/" + date;
     }
