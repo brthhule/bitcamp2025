@@ -45,13 +45,12 @@ function GeneratedOutput() {
 
     return (
         <div>
-            <h1>Day Page</h1>
-            {date && <h3>Date: {date}</h3>}
+            <div classname="date-container">
+                <h1 classname="date">{date && <h3>Date: {date}</h3>}</h1>
+            </div>
             {entry ? (
-                <div>
-                    <h2>{entry.title || 'No Title'}</h2>
-                    <p>{entry.description || 'No Description'}</p>
-                    {/* Display image if you implement it */}
+                <div classname="description-container">
+                    <p classname="description">{entry.description || 'No Description'}</p>
                 </div>
             ) : (
                 <p>No journal entry for this date.</p>

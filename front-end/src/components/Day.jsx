@@ -33,33 +33,35 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
          * If a day is not within the primary month and it is less than 15, it's the month before the primary month
          * If a day is not within the primary month and it is more than 15, it's the month after the primary month
          */
-    async function goToDayScren() {
-        prevDate.setMonth(currentDate.getMonth(), currentDate.getDate());
-
-        let modifier = 0;
-        if (!isWithinMonth) { 
-            modifier = (date < 15) ? 1 : -1;
-        }
-        currentDate.setMonth(currentDate.getMonth() + modifier, date)
-        console.log("Selected date: " + currentDate)
-        localData.dayEventsNumber = dayEventsNumber;
-
-        try {
-            const formattedDate = formatDate(currentDate);
-            const response = await axios.get(`${serverAddress}/api/journal/exists/`,{formattedDate});
-            const data = response.data;
-
-            if (data.exists) {
-                navigate('/output/');
-            } else {
+        async function goToDayScreen() {
+            prevDate.setMonth(currentDate.getMonth(), currentDate.getDate());
+        
+            let modifier = 0;
+            if (!isWithinMonth) { 
+                modifier = (date < 15) ? 1 : -1;
+            }
+            currentDate.setMonth(currentDate.getMonth() + modifier, date)
+            console.log("Selected date: " + currentDate)
+            localData.dayEventsNumber = dayEventsNumber;
+        
+            try {
+                const formattedDate = formatDate(currentDate);
+                // Check if entry exists
+                const response = await axios.get(`${serverAddress}/api/journal/exists?date=${formattedDate}`);
+                
+                if (response.data.exists) {
+                    // If entry exists, go directly to generated output
+                    navigate(`/generated-output/${formattedDate}`);
+                } else {
+                    // If no entry exists, go to journal entry creation page
+                    navigate('/journal');
+                }
+            } catch (error) {
+                console.error("Error checking journal entry:", error);
+                // If error occurs, default to journal entry screen
                 navigate('/journal');
             }
-        } catch (error) {
-            console.error("Error checking journal entry:", error);
-            /*navigate('/journal', { state: { selectedDate: formattedDate, error: "Could not check for existing entry." } });*/
         }
-    
-    }
 
     function detDayDate() {
         let monthNumber = currentDate.getMonth();
@@ -74,7 +76,7 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
     }
 
     return (
-        <div className="dayContainer" onClick={() => goToDayScren()}>
+        <div className="dayContainer" onClick={() => goToDayScreen()}>
             <div className="dayTop" style={{backgroundColor: isWithinMonth? "#a9a488" : "#c9c5b1"}}>
                 <div className="topText">{detDayDate()}</div>
             </div>
