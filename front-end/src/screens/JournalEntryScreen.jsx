@@ -5,6 +5,7 @@ import localData from "../components/LocalData";
 import { convertMonthIndex } from "../util/utils";
 import axios from 'axios';
 import { Box, Typography, Button } from "@mui/material";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 const serverAddress = "http://localhost:3000"; // Ensure this matches your backend port
 
@@ -62,41 +63,41 @@ export default function JournalEntryScreen() {
                     <img src="/cancel_icon.png" style={{ width: 50, flex: 1 }} alt="Cancel" />
                 </Button>
 
-                <div style={{ flex: 1, fontSize: "50px", textAlign: "center" }}>
-                    LOG YOUR DAY!
+                <div style={{ flex: 1, fontSize: "50px", textAlign: "center", fontFamily: "Bestigia", color: '#000000' }}>
+                    DAILY LOG
                 </div>
-                <div className="image-container">
-                    <Button>
-                        <img src="/calendar_icon.png" alt="Calendar" />
-                        <div className="overlay-text" style={{ flex: 1, position: "relative", top: 0 }}>
-                            <div>{convertMonthIndex(monthIndex) + " " + date + ", \n"}</div>
-                            <div>{year}</div>
-                        </div>
-                    </Button>
-                </div>
+                <div className="calendar-button-container"> {}
+                <Button>
+                    <CalendarTodayIcon style={{ fontSize: 80, color: 'black' }} />
+                    <div className="calendar-overlay-text"> {}
+                        <div>{convertMonthIndex(monthIndex).substring(0,3) + " " + date}</div>
+                        <div>{year}</div>
+                    </div>
+                </Button>
+            </div>
             </div>
         );
     }
 
     return (
-        <div className="container">
+        <div className="journalEntryContainer">
             <Header />
 
             <form onSubmit={handleSubmit}>
 
                 <div className="text-input">
-                    <input
+                    <textarea
                         type="text"
                         value={description}
                         onChange={handleDescriptionChange}
-                        placeholder="Enter description"
+                        placeholder="Enter log..."
                     />
                 </div>
 
                 <div className="create-container">
-                    <Button type="submit" sx={{ cursor: "pointer" }}>
+                    <Button type="submit" sx={{ cursor: "pointer", color: '#F2F2F2' }}>
                         <div className="create">
-                            SAVE ENTRY
+                            Save Entry
                         </div>
                     </Button>
                 </div>
