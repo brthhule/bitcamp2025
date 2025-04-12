@@ -1,9 +1,9 @@
 .container {
-  flex-direction: "row";
-  flex: 70;
+  flex-direction: row;
+  font-family: "IBMPlexMono";
 }
 
 .columnGap {
   flex: 4;
-  background-color: "#FFFFFF";
+  background-color: #f8f6eb;
 }

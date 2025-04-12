@@ -1,5 +1,6 @@
 import React from 'react'
 import Day from './Day';
+import "../styles/WeekRow.css"
 
 function WeekRow({weekDayNumbers, daysWithinMonth}) {
 
@@ -26,7 +27,7 @@ function WeekRow({weekDayNumbers, daysWithinMonth}) {
     }
 
     return (
-        <div className="container">
+        <div className="container" style={{flexDirection: "row"}}>
             {days.map((dayInTheWeek) => <RenderColumns key={dayInTheWeek} dayInTheWeek={dayInTheWeek}/>)}
         </div>
     )

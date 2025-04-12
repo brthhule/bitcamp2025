@@ -6,17 +6,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 import "../styles/home-screen.css"
-
+import '../styles/fonts.css';
 
 export default function HomeScreen() {
     const [month, setMonth] = useState("");
     const [year, setYear] = useState(0);
 
     function updateLocDataMonth(newMonth) {
-        console.log("************************************")
-        console.log("Clicked" + newMonth)
         localData.currentDate.setMonth(newMonth);
-        console.log("New month: " + localData.currentDate.getMonth())
         setMonth(localData.currentDate.getMonth())
         setYear(localData.currentDate.getFullYear())
     }
@@ -33,36 +30,30 @@ export default function HomeScreen() {
       }, []);
 
     return (
-        <Box sx={{ p: 2 }}>
+        <div>
             {/* Header */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-                    <div style={{display: "flex", alignContent: "center"}}>
-                        <div className="reset-date" onClick={() => resetDate()}>
-                            sentra
-                        </div>
-                    </div>
-                </Typography>
-            </Box>
+            <div className="reset-date" onClick={() => resetDate()}>
+                sentra
+            </div>
+
 
             {/* Calendar */}
             <Box>
-                <div style={{display: "flex"}}>
-                    <div className="prev-month" onClick={() => updateLocDataMonth(localData.currentDate.getMonth() - 1)}>
-                        <img src="/arrow-image.svg" style={{width: 20}}/>
+                <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <div className="prev-month" style={{flex: 1}} onClick={() => updateLocDataMonth(localData.currentDate.getMonth() - 1)}>
+                        <img src="/arrow-image.svg" style={{width: 40, paddingTop: 5}}/>
                     </div>
-                    <div style={{width: 20}}/>
-                    <Typography variant="h7" sx={{ fontWeight: 'bold', mb: 2 }}>
+                    <div className="monthDate">
                         {convertMonthIndex(month) + " " + year}
-                    </Typography>
-                    <div style={{width: 20}}/>
-                    <div className="next-month" onClick={() => updateLocDataMonth(localData.currentDate.getMonth() + 1)}>
-                        <img src="/arrow-image.svg" style={{width: 20, transform: "scaleX(-1)"}}/>
+                    </div>
+                    <div className="next-month" style={{flex: 1}} onClick={() => updateLocDataMonth(localData.currentDate.getMonth() + 1)}>
+                        <img src="/arrow-image.svg" style={{width: 40, paddingTop: 5, transform: "scaleX(-1)"}}/>
                     </div>
                 </div>
                 
                 <MonthDiv/>
             </Box>
-        </Box>
+
+        </div>
     );
 }

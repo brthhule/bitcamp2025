@@ -1,20 +1,16 @@
-bottomContainer {
-  flex: 50;
-  background-color: bottomColor;
-  border-color: "#7FB570";
-  border-width: bottomWidth;
-  align-items: "center";
-}
-
 .dayContainer {
   flex: 50;
-  flex-direction: "column";
+  flex-direction: column;
+  border-radius: 10px;
 }
 
 .dayTop {
   flex: 20;
-  background-color: "#000000";
-  align-items: "center";
+  align-items: center;
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
 }
 
 .dayTop:hover {
@@ -22,18 +18,18 @@ bottomContainer {
 }
 
 .topText {
-  color: "#FFFFFF";
-  font-family: "Itim-Regular";
-  font-size: 15;
-  text-align: "center";
+  color: black;
+  font-family: "IBMPlexMono";
+  font-size: 20;
+  text-align: center;
 }
-bottomText {
-  color: "#000000";
+.bottomText {
+  color: #000000;
   font-family: "Itim-Regular";
-  text-align: "center";
+  text-align: center;
   font-size: 20;
 }
-columnGap {
+.columnGap {
   flex: 4;
-  background-color: "#FFFFFF";
+  background-color: #f8f6eb;
 }

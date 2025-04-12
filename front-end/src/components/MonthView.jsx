@@ -33,24 +33,23 @@ export default function Monthdiv () {
     const weekNumbers = ['1', '2', '3', '4', '5', '6'];
 
     return(
-        <div className="row">
-            <div className="container">
-                <div className="sideGap"/>
-                <div className="calendardiv">
-                    <WeekDays/>
-                    <RowGap/>
+        <div className="calendardiv">
+            <div style={{height: "5px"}}/>
+            <WeekDays/>
+            <RowGap/>
 
-                    {weekNumbers.map((weekNumber) => 
-                        <RenderWeekRow 
-                            key = {weekNumber}
-                            weekNumber={weekNumber}
-                            weekDayNumbers={MonthLayoutData.weeks[weekNumber - 1]}
-                            daysWithinMonth = {MonthLayoutData.daysWithinMonth[weekNumber - 1]}
-                        />
-                    )}
-                </div>
-                <div className="sideGap"/>
-            </div>
+            {weekNumbers.map((weekNumber) => 
+                <>
+                    <div style={{height: 10}}/>
+                    <RenderWeekRow 
+                        key = {weekNumber}
+                        weekNumber={weekNumber}
+                        weekDayNumbers={MonthLayoutData.weeks[weekNumber - 1]}
+                        daysWithinMonth = {MonthLayoutData.daysWithinMonth[weekNumber - 1]}
+                    />
+                </>
+
+            )}
         </div>
     )
 }

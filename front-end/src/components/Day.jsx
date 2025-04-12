@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 const serverAddress = "http://localhost:5173";
 import { formatDate } from "../util/utils";
+import "../styles/Day.css"
 
 export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
      /**
@@ -59,10 +60,22 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
         }
     
     }
+
+    function detDayDate() {
+        let monthNumber = currentDate.getMonth();
+        const date = weekDayNumbers[dayInTheWeek];
+        let modifier = 0;
+        if (!isWithinMonth) { 
+            modifier = (date < 15) ? 1 : -1;
+            monthNumber += modifier;
+        }
+        return monthNumber + "/" + date;
+    }
+
     return (
         <div className="dayContainer" onClick={() => goToDayScren()}>
-            <div className="dayTop">
-                <div className="topText">{weekDayNumbers[dayInTheWeek]}</div>
+            <div className="dayTop" style={{backgroundColor: isWithinMonth? "#a9a488" : "#c9c5b1"}}>
+                <div className="topText">{detDayDate()}</div>
             </div>
         </div>
     )

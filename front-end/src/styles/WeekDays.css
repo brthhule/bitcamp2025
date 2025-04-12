@@ -1,13 +1,12 @@
 .dayContainer {
-  flex: 50;
-  background-color: gray;
+  font-family: "IBMPlexMono";
 }
 
 .text {
-  font-family: "Itim-Regular";
+  font-family: "IBMPlexMono";
   font-size: 15;
-  background-color: gray;
   text-align: "center";
+  background-color: "#D9D9D9";
 }
 
 .container {
@@ -17,5 +16,10 @@
 
 .gap {
   flex: 4;
-  background-color: white;
+  background-color: #f8f6eb;
+}
+
+.foo-container {
+  display: flex;
+  flex-direction: row;
 }
