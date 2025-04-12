@@ -1,12 +1,11 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom';
+import HomeScreen from './screens/HomeScreen';
+import JournalEntryScreen from './screens/JournalEntryScreen';
 import './App.css'
 import { Box, Typography } from '@mui/material' // import MUI components
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
       <Box>
