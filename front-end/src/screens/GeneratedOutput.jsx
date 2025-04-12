@@ -57,7 +57,7 @@ function GeneratedOutput() {
                 <p>No journal entry for this date.</p>
             )}
             <button onClick={() => navigate('/')}>Back to Calendar</button>
-        </div>
+        </div>ffffffff
     );
 }
 
