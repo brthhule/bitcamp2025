@@ -1,63 +1,53 @@
 import localData from "./LocalData";
 import { useNavigate } from "react-router-dom";
-/**
- * A component for rendering the different days in the events-calendar view
- * @param {number} dayInTheWeek - What day of the week it is, Mon/Tue/Wed, etc.
- * @param {any} navigation -  
- * @returns A component
- */
+import axios from 'axios';
+const serverAddress = "http://localhost:5173";
+
 function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
-    console.log("Debug line:")
+    console.log("Debug line:");
     console.log({ weekDayNumbers, daysWithinMonth, dayInTheWeek });
 
     const navigate = useNavigate();
-    /**
-     * Example: 10/4/24
-     * date: 4
-     * month: 10
-     * year: 24,
-     * day: Fri
-     */
-    console.log(weekDayNumbers)
-    const date = weekDayNumbers[dayInTheWeek];
-    // Is this day
-    const isWithinMonth = daysWithinMonth[dayInTheWeek];
     const currentDate= localData.currentDate;
-    const prevDate= localData.prevDate;
 
-    const dayEventsNumber = localData.getEventsNumber(
-        currentDate.getFullYear(), 
-        currentDate.getMonth(),
-        weekDayNumbers[dayInTheWeek],
-        daysWithinMonth[dayInTheWeek])
+    async function goToDayScren() {
+        const day = weekDayNumbers[dayInTheWeek];
+        const year = currentDate.getFullYear();
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        const formattedDate = `${year}-${month}-${day.toString().padStart(2, '0')}`;
 
-    /**When the day button/box is clicked, reset date to previous one, navigate to Day screen */
-    function goToDayScren() {
-        console.log("Date clicked: " + date);
-        prevDate.setMonth(currentDate.getMonth(), currentDate.getDate());
-        
-        let modifier = 0;
-        if (!isWithinMonth) {
-            modifier = (date < 15) ? 1 : -1;
+        console.log("Clicked date:", formattedDate);
+
+        try {
+            const response = await axios.get(`${serverAddress}/api/journal/${formattedDate}`);
+            const data = response.data;
+
+            if (data.exists) {
+                navigate(`/output/${formattedDate}`, { state: { entry: data.entry } });
+            } else {
+                navigate('/journal', { state: { selectedDate: formattedDate } });
+            }
+        } catch (error) {
+            console.error("Error checking journal entry:", error);
+            navigate('/journal', { state: { selectedDate: formattedDate, error: "Could not check for existing entry." } });
         }
-        currentDate.setMonth(currentDate.getMonth() + modifier, date)
-        console.log("Current date: " + currentDate)
-        localData.dayEventsNumber = dayEventsNumber;
-        navigate('/journal')
     }
 
     return (
-        <div className="dayContainer" onClick={() => goToDayScren()}>
+        <div className="dayContainer" onClick={goToDayScren}>
             <div className="dayTop">
                 <div className="topText">{weekDayNumbers[dayInTheWeek]}</div>
             </div>
-
             <div className="bottomContainer">
-                <div className="bottomText">{dayEventsNumber}</div>
+                <div className="bottomText">{localData.getEventsNumber(
+                    currentDate.getFullYear(),
+                    currentDate.getMonth(),
+                    weekDayNumbers[dayInTheWeek],
+                    daysWithinMonth[dayInTheWeek]
+                )}</div>
             </div>
-            
         </div>
-    )
+    );
 }
 
 export default Day;

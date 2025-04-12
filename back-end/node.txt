@@ -1,0 +1,38 @@
+basic:
+const express = require('express');
+const cors = require('cors');
+
+const app = express(); // defines routes
+
+app.use(cors());
+const port = 5173; // we'll listen in on this for incoming requests
+
+app.get('/', (req, res) => { // defines http get requests (req = incoming info, res = sends response back to client)
+  res.send('Hello, Worlder!'); 
+});
+
+app.get('/date', (req, res) => {
+  res.send("April 8th");
+})
+
+app.listen(port, () => { // starts server, makes it listen for connections on part
+  console.log(`Server listening on port ${port}`); // callback when server starts
+});
+
+
+1. initialize a node.js project by doing npm init -y
+2. npm install express: handles routing easily 
+3. i've got to go to the server.js file to actually handle routing
+4. http://localhost:5173 should show output of first get request
+
+
+designing API endpoints
+5. my endpoints 
+   - check if date has an entry (GET)
+        - true: get journal entry for a specific date (title, description) (GET)
+            - update existing journal entry HTTP PUT
+        - false: on an empty date, fill out journal entry form (HTTP POST)
+
+implementing the data storage
+6. const journalEntries = {} (temporarily to store journal entires, data is lost though when server restarts)
+7. implement the API endpoints
