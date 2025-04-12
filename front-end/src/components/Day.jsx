@@ -43,7 +43,7 @@ function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
         currentDate.setMonth(currentDate.getMonth() + modifier, date)
         console.log("Current date: " + currentDate)
         localData.dayEventsNumber = dayEventsNumber;
-        navigate('/Day')
+        navigate('/journal')
     }
 
     return (
