@@ -64,6 +64,7 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
     function detDayDate() {
         let monthNumber = currentDate.getMonth();
         const date = weekDayNumbers[dayInTheWeek];
+        monthNumber += 1;
         let modifier = 0;
         if (!isWithinMonth) { 
             modifier = (date < 15) ? 1 : -1;
