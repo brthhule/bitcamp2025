@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import "../styles/generatedoutput.css";
 
 const serverAddress = "http://localhost:3000"; // Make sure this matches your backend
 
@@ -10,6 +11,14 @@ function GeneratedOutput() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+
+    // Format date for display (from YYYY-MM-DD to MM/DD/YYYY)
+    const formatDisplayDate = (dateString) => {
+        if (!dateString) return '';
+        const parts = dateString.split('-');
+        if (parts.length !== 3) return dateString;
+        return `${parts[1]}/${parts[2]}/${parts[0]}`;
+    };
 
     useEffect(() => {
         const fetchJournalEntry = async () => {
@@ -36,26 +45,60 @@ function GeneratedOutput() {
     }, [date]);
 
     if (loading) {
-        return <p>Loading journal entry...</p>;
+        return (
+            <div className="loading-container">
+                <p className="loading-text">Loading journal entry...</p>
+            </div>
+        );
     }
 
     if (error) {
-        return <p>Error: {error}</p>;
+        return (
+            <div className="error-container">
+                <p className="error-text">Error: {error}</p>
+                <button className="back-button" onClick={() => navigate('/')}>
+                    <img src="/arrow-image.svg" alt="Back" className="back-arrow" />
+                </button>
+            </div>
+        );
     }
 
     return (
-        <div>
-            <div classname="date-container">
-                <h1 classname="date">{date && <h3>Date: {date}</h3>}</h1>
-            </div>
-            {entry ? (
-                <div classname="description-container">
-                    <p classname="description">{entry.description || 'No Description'}</p>
+        <div className="generated-output-container">
+            <div className="banner-container">
+                <button className="back-button" onClick={() => navigate('/')}>
+                    <img src="/arrow-image.svg" alt="Back" className="back-arrow" />
+                </button>
+                <div className="date-banner">
+                    {formatDisplayDate(date)}
                 </div>
-            ) : (
-                <p>No journal entry for this date.</p>
-            )}
-            <button onClick={() => navigate('/')}>Back to Calendar</button>
+                <div className="expand-button">
+                    <img src="/expand-icon.svg" alt="Expand" className="expand-icon" />
+                </div>
+            </div>
+
+            <div className="entry-section">
+                <div className="entry-header">
+                    <h1 className="entry-title">Entry</h1>
+                    <div className="audio-icon">
+                        <img src="/audio-icon.svg" alt="Audio" />
+                    </div>
+                </div>
+
+                <div className="entry-content">
+                    {entry ? (
+                        <p className="entry-description">{entry.description || 'No Description'}</p>
+                    ) : (
+                        <p className="no-entry">No journal entry for this date.</p>
+                    )}
+                </div>
+            </div>
+
+            <div className="edit-container">
+                <button className="edit-button"> {/*onClick={() => navigate(`/journal/${date}`)}*/}
+                    Edit Entry
+                </button>
+            </div>
         </div>
     );
 }
