@@ -1,8 +1,13 @@
 .container {
+  background-color: #ffffff;
+  width: 100%;
 }
 
 .text-input {
-  width: 900px;
+  width: 20em;
+  height: 2em;
+  padding: 0.5em;
+  font-size: 1.2em;
 }
 
 .date {

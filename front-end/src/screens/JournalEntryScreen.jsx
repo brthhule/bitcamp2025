@@ -1,9 +1,12 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 import "../styles/journalentry.css"
 import { getDate } from "../model";
 import { useEffect } from "react";
 
 export default function JournalEntryScreen() {
+    const navigate = useNavigate();
+
     const [inputValue, setInputValue] = useState('');
     const [date, setDate] = useState('');
 
@@ -29,9 +32,11 @@ export default function JournalEntryScreen() {
                 <input type="text" value={inputValue} onChange={handleChange} />
             </div>
             <div className = "create-container">
+            <Box onClick={() => navigate("/output")} sx={{ cursor: "pointer",  mb: 2 }}>
                 <div className="create" onClick={() => updateContent()}>
                     Create
                 </div>
+            </Box>
             </div>
 
         </div>
