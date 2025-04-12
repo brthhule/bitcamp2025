@@ -1,28 +1,41 @@
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from "react"
+import { useNavigate } from 'react-router-dom';
+import "../styles/journalentry.css"
+import { useEffect } from "react";
+import localData from "../components/LocalData";
+import { convertMonthIndex } from "../util/utils";
 import axios from 'axios';
 
 const serverAddress = "http://localhost:5173"; // Make sure this matches your backend
 
-function JournalEntryScreen() {
+
+
+export default function JournalEntryScreen() {
     const navigate = useNavigate();
-    const location = useLocation();
-    const selectedDateFromCalendar = location.state?.selectedDate;
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [date, setDate] = useState(selectedDateFromCalendar || ''); // Initialize with selected date
+    const [monthIndex, setMonthIndex] = useState(0);
+    const [date, setDate] = useState(0)
+    const [year, setYear] = useState(0);
+
+
+
+    const handleChange = (e) => {
+        setDescription(e.target.value);
+      };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        if (!date || !title || !description) {
+        // Date is automatic
+        if (!title || !description) {
             alert('Please fill in all fields.');
             return;
         }
 
         try {
-            const response = await axios.post(`${serverAddress}/api/journal`, { date, title, description });
-
+            const response = await axios.post(`${serverAddress}/api/journal/exists`, { date, title, description });
+            console.log("Response status:")
+            console.log(response.status)
             if (response.status === 201) {
                 // Successfully created, now navigate to the GeneratedOutput for this date
                 navigate(`/generated-output/${response.data.entry.date}`);
@@ -35,6 +48,13 @@ function JournalEntryScreen() {
             console.error('Error creating journal entry:', error);
         }
     };
+    
+
+    useEffect(() => {
+        setMonthIndex(localData.currentDate.getMonth());
+        setYear(localData.currentDate.getFullYear());
+        setDate(localData.currentDate.getDate());
+      }, []);
 
     function Header() {
         return (
@@ -59,41 +79,21 @@ function JournalEntryScreen() {
     }
 
     return (
-        <div>
-            <h1>Create New Journal Entry</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="date">Date:</label>
-                    <input
-                        type="text"
-                        id="date"
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        readOnly // You might want to make this editable or use a date picker
-                    />
-                </div>
-                <div>
-                    <label htmlFor="title">Title:</label>
-                    <input
-                        type="text"
-                        id="title"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="description">Description:</label>
-                    <textarea
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-                </div>
-                <button type="submit">Create</button>
-                <button type="button" onClick={() => navigate('/')}>Cancel</button>
-            </form>
-        </div>
-    );
-}
+        <div className="container">
+            <Header/>
+            
+            <div className = "text-input">
+                <input type="text" value={description} onChange={handleChange} />
+            </div>
 
-export default JournalEntryScreen;
+            <div className = "create-container">
+                <div onClick={() => navigate("/output")} sx={{ cursor: "pointer"}}>
+                    <div className="create" onClick={() => handleSubmit()}>
+                        SAVE ENTRY
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    )
+}

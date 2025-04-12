@@ -6,13 +6,14 @@ const port = 5173; // Typically, frontend runs on a different port (e.g., 3000 f
 app.use(express.json());
 
 // In-memory data storage (for now)
+// Hash map
 const journalEntries = {};
 
-// Return an entry if it exists (GET)
-app.get('/api/journal/:date', (req, res) => {
-    const date = req.params.date;
-    if (journalEntries[date]) {
-        res.json({ exists: true, entry: journalEntries[date] });
+// Return boolean if key (date string) exists (GET)
+app.get('/api/journal/exists', (req, res) => {
+    const dateString =  req.params;
+    if (journalEntries[dateString]) {
+        res.json({ exists: true});
     } else {
         res.json({ exists: false });
     }
