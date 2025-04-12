@@ -23,17 +23,10 @@ export default function HomeScreen() {
                     April 2024
                 </Typography>
                 <Calendar>
-                    
+
                 </Calendar>
 
                 <Box>
-                    <Button>
-                        left
-                    </Button>
-                    <Button>
-                        right
-                    </Button>
-
                     <Box>
                         Calendar
                     </Box>
