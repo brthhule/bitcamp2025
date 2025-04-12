@@ -1,6 +1,25 @@
-.container {
-  background-color: #ffffff;
+.header {
+  display: flex;
+  align-items: center;
   width: 100%;
+  background-color: blue;
+  flex-direction: row;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.container {
+  background-color: orange;
+  display: flex;
+  flex-direction: column;
+  width: 1050px;
+  height: 500px;
+  align-content: space-between;
 }
 
 .text-input {
@@ -10,14 +29,11 @@
   font-size: 1.2em;
 }
 
-.date {
-  font-size: 50px;
-}
-
 .text-input {
   margin: 16px 0;
   padding: 8px;
   border-radius: 8px;
+  width: 100%;
 }
 
 .text-input input {
@@ -38,6 +54,7 @@
 .create-container {
   display: flex;
   justify-content: center;
+  margin-top: 100px;
 }
 
 .create {
@@ -45,4 +62,27 @@
   width: 80px;
   height: 40px;
   vertical-align: center;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-container img {
+  display: block;
+  width: 75px;
+  height: auto;
+}
+
+.overlay-text {
+  position: absolute;
+  padding: 0;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -85%);
+  color: black;
+  font-weight: bold;
+  font-size: 15px;
+  pointer-events: none;
 }

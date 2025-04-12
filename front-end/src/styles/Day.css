@@ -17,6 +17,10 @@ bottomContainer {
   align-items: "center";
 }
 
+.dayTop:hover {
+  cursor: pointer;
+}
+
 .topText {
   color: "#FFFFFF";
   font-family: "Itim-Regular";

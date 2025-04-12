@@ -12,11 +12,6 @@ export default function Monthdiv () {
     }
 
     function RenderWeekRow({weekNumber, weekDayNumbers, daysWithinMonth}) {
-        //console.log("Week number, weekDayNumbers, daysWithinMonth: ");
-        //console.log(weekNumber);
-        //console.log(weekDayNumbers);
-        //console.log(daysWithinMonth);
-
         return (
             <>
                 <WeekRow 
@@ -32,8 +27,8 @@ export default function Monthdiv () {
      * Retrieve the model of events happening this month, week by week
      */
     MonthLayoutData.initializeWeeks();
-    console.log("MonthLayoutData weeks:")
-    console.log(MonthLayoutData.weeks)
+    // console.log("MonthLayoutData weeks:")
+    // console.log(MonthLayoutData.weeks)
 
     const weekNumbers = ['1', '2', '3', '4', '5', '6'];
 

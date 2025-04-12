@@ -36,6 +36,28 @@ function JournalEntryScreen() {
         }
     };
 
+    function Header() {
+        return (
+            <div className="header">
+                <div onClick={() => navigate("/")}>
+                    <img src="/cancel_icon.png" style={{width: 50, flex: 1}}/>
+                </div>
+                <div style={{flex: 1, fontSize: "50px", textAlign: "center"}}>
+                    LOG YOUR DAY!
+                </div>
+                <div className="image-container">
+                    <img src="/calendar_icon.png"/>
+                    <div className="overlay-text" style={{flex: 1, position: "relative", top: 0}}>
+                        <div>{convertMonthIndex(monthIndex) + " " + date + ", \n"}</div>
+                        <div>{year}</div>
+                    </div>
+
+                </div>
+
+            </div>
+        )
+    }
+
     return (
         <div>
             <h1>Create New Journal Entry</h1>
