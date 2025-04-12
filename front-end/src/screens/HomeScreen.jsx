@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material"; 
 import MonthDiv from "../components/MonthView";
 import localData from "../components/LocalData";
@@ -9,10 +8,7 @@ import { useEffect } from "react";
 import "../styles/home-screen.css"
 
 
-
-
 export default function HomeScreen() {
-    const navigate = useNavigate();
     const [month, setMonth] = useState("");
     const [year, setYear] = useState(0);
 
@@ -41,21 +37,16 @@ export default function HomeScreen() {
             {/* Header */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                 <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-
                     <div style={{display: "flex", alignContent: "center"}}>
                         <div className="reset-date" onClick={() => resetDate()}>
                             sentra
                         </div>
                     </div>
-
-                    
                 </Typography>
             </Box>
 
             {/* Calendar */}
             <Box>
-
-
                 <div style={{display: "flex"}}>
                     <div className="prev-month" onClick={() => updateLocDataMonth(localData.currentDate.getMonth() - 1)}>
                         <img src="/arrow-image.svg" style={{width: 20}}/>
@@ -70,11 +61,7 @@ export default function HomeScreen() {
                     </div>
                 </div>
                 
-
                 <MonthDiv/>
-
-
-                
             </Box>
         </Box>
     );
