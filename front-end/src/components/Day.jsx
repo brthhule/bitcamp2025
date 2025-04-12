@@ -1,7 +1,7 @@
 import localData from "./LocalData";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-const serverAddress = "http://localhost:5173";
+const serverAddress = "http://localhost:3000";
 import { formatDate } from "../util/utils";
 import "../styles/Day.css"
 

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const serverAddress = "http://localhost:5173"; // Make sure this matches your backend
+const serverAddress = "http://localhost:3000"; // Make sure this matches your backend
 
 function GeneratedOutput() {
     const { date } = useParams();
