@@ -1,3 +1,5 @@
+import localData from "./LocalData";
+
 
 /**
  * Data used in MonthView.js to show what days are within the month and their dates
@@ -7,7 +9,7 @@ const MonthLayoutData  = {
     weeks: [],
     daysWithinMonth: [],
     initializeWeeks() {
-        let date = new Date();
+        let date = localData.currentDate;
         const firstDayDateTime = new Date(date.getFullYear(), date.getMonth(), 1);
         
         const firstDate = firstDayDateTime.getDate();

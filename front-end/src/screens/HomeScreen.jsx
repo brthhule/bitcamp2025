@@ -73,21 +73,8 @@ export default function HomeScreen() {
 
                 <MonthDiv/>
 
-                <Box>
-                    <Box>
-                        Calendar
-                    </Box>
 
-                </Box>
                 
-            </Box>
-           
-
-            {/* Button Navigation */}
-            <Box onClick={() => navigate("/journal")} sx={{ cursor: "pointer",  mb: 2 }}>
-                <Button variant="contained">
-                    Make
-                </Button>
             </Box>
         </Box>
     );
