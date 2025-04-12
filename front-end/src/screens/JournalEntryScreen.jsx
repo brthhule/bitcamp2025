@@ -21,31 +21,31 @@ export default function JournalEntryScreen() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Date is automatic
+        
         if (!description) {
             alert('Please fill in all fields.');
             return;
         }
-
+    
         try {
-            const response = await axios.get(`${serverAddress}/api/journal/exists?date=${date}`);
-            if (response.data.exists) {
-                console.log("Journal entry already exists for this date.");
-                alert('A journal entry already exists for this date.');
-                return;
-            }
-            const createResponse = await axios.post(`${serverAddress}/api/journal`, { date, description });
-            console.log("Response status:", createResponse.status);
-
+            // Remove the redundant check - we already know an entry doesn't exist
+            // Just create the entry directly
+            const dateString = `${year}-${(monthIndex + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+            
+            const createResponse = await axios.post(`${serverAddress}/api/journal`, { 
+                date: dateString, 
+                description 
+            });
+    
             if (createResponse.status === 201) {
-                navigate(`/generated-output/${date}`);
+                navigate(`/generated-output/${dateString}`);
             } else {
                 alert('Failed to create journal entry.');
                 console.error('Error creating journal entry:', createResponse);
             }
         } catch (error) {
-            alert('An error occurred while checking or creating the journal entry.');
-            console.error('Error checking or creating journal entry:', error);
+            alert('An error occurred while creating the journal entry.');
+            console.error('Error creating journal entry:', error);
         }
     };
 

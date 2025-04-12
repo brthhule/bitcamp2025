@@ -45,11 +45,9 @@ function GeneratedOutput() {
 
     return (
         <div>
-            <h1>Day Page</h1>
-            {date && <h3>Date: {date}</h3>}
+            <h1>{date && <h3>Date: {date}</h3>}</h1>
             {entry ? (
                 <div>
-                    <h2>{entry.title || 'No Title'}</h2>
                     <p>{entry.description || 'No Description'}</p>
                     {/* Display image if you implement it */}
                 </div>
