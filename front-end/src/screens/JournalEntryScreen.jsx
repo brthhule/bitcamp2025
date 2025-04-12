@@ -62,7 +62,7 @@ export default function JournalEntryScreen() {
                 <div onClick={() => navigate("/")}>
                     <img src="/cancel_icon.png" style={{width: 50, flex: 1}}/>
                 </div>
-                <div style={{flex: 1, fontSize: "50px", textAlign: "center"}}>
+                <div style={{flex: 1, fontSize: "50px", textAlign: "center",   fontFamily: "bestigia"}}>
                     LOG YOUR DAY!
                 </div>
                 <div className="image-container">
@@ -79,7 +79,7 @@ export default function JournalEntryScreen() {
     }
 
     return (
-        <div className="container">
+        <div className="journal-container">
             <Header/>
             
             <div className = "text-input">
@@ -89,7 +89,7 @@ export default function JournalEntryScreen() {
             <div className = "create-container">
                 <div onClick={() => navigate("/output")} sx={{ cursor: "pointer"}}>
                     <div className="create" onClick={() => handleSubmit()}>
-                        SAVE ENTRY
+                        Save Entry
                     </div>
                 </div>
             </div>
