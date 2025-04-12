@@ -7,9 +7,6 @@ import { useNavigate } from "react-router-dom";
  * @returns A component
  */
 function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
-    console.log("Debug line:")
-    console.log({ weekDayNumbers, daysWithinMonth, dayInTheWeek });
-
     const navigate = useNavigate();
     /**
      * Example: 10/4/24
@@ -18,7 +15,6 @@ function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
      * year: 24,
      * day: Fri
      */
-    console.log(weekDayNumbers)
     const date = weekDayNumbers[dayInTheWeek];
     // Is this day
     const isWithinMonth = daysWithinMonth[dayInTheWeek];
@@ -33,7 +29,6 @@ function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
 
     /**When the day button/box is clicked, reset date to previous one, navigate to Day screen */
     function goToDayScren() {
-        console.log("Date clicked: " + date);
         prevDate.setMonth(currentDate.getMonth(), currentDate.getDate());
         
         let modifier = 0;
@@ -41,7 +36,7 @@ function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
             modifier = (date < 15) ? 1 : -1;
         }
         currentDate.setMonth(currentDate.getMonth() + modifier, date)
-        console.log("Current date: " + currentDate)
+        console.log("Selected date: " + currentDate)
         localData.dayEventsNumber = dayEventsNumber;
         navigate('/journal')
     }
@@ -51,11 +46,6 @@ function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
             <div className="dayTop">
                 <div className="topText">{weekDayNumbers[dayInTheWeek]}</div>
             </div>
-
-            <div className="bottomContainer">
-                <div className="bottomText">{dayEventsNumber}</div>
-            </div>
-            
         </div>
     )
 }

@@ -1,14 +1,17 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import "../styles/journalentry.css"
-import { getDate } from "../model";
 import { useEffect } from "react";
+import localData from "../components/LocalData";
+import { convertMonthIndex } from "../util/utils";
 
 export default function JournalEntryScreen() {
     const navigate = useNavigate();
 
     const [inputValue, setInputValue] = useState('');
-    const [date, setDate] = useState('');
+    const [monthIndex, setMonthIndex] = useState(0);
+    const [date, setDate] = useState(0)
+    const [year, setYear] = useState(0);
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -17,26 +20,27 @@ export default function JournalEntryScreen() {
     function updateContent() {
         console.log(inputValue)
     }
+    
 
     useEffect(() => {
-        getDate().then(date => {
-          setDate(date); // for example
-        });
+        setMonthIndex(localData.currentDate.getMonth());
+        setYear(localData.currentDate.getFullYear());
+        setDate(localData.currentDate.getDate());
       }, []);
 
     return (
         <div className="container">
-            <div className="date">{date}</div>
+            <div className="date">{convertMonthIndex(monthIndex) + " " + date + ", " + year}</div>
             
             <div className = "text-input">
                 <input type="text" value={inputValue} onChange={handleChange} />
             </div>
             <div className = "create-container">
-            <Box onClick={() => navigate("/output")} sx={{ cursor: "pointer",  mb: 2 }}>
+            <div onClick={() => navigate("/output")} sx={{ cursor: "pointer",  mb: 2 }}>
                 <div className="create" onClick={() => updateContent()}>
                     Create
                 </div>
-            </Box>
+            </div>
             </div>
 
         </div>
