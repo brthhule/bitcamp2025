@@ -2,7 +2,6 @@
   display: flex;
   align-items: center;
   width: 100%;
-  background-color: blue;
   flex-direction: row;
 }
 
@@ -13,17 +12,23 @@ body {
   width: 100%;
 }
 
-.container {
+.journal-container {
   display: flex;
   flex-direction: column;
-  width: 1050px;
-  height: 500px;
+  width: 800px;
+  height: 400px;
   align-content: space-between;
+  margin: 40px;
+  padding: 40px;
+  padding-left: 80px;
+  padding-right: 80px;
+  background-color: white;
+  border-radius: 20px;
 }
 
 .text-input {
   width: 20em;
-  height: 2em;
+  height: 3em;
   padding: 0.5em;
   font-size: 1.2em;
 }
@@ -84,4 +89,16 @@ body {
   font-weight: bold;
   font-size: 15px;
   pointer-events: none;
+}
+
+.create {
+  border-radius: 20px;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "IBMPlexMono";
+  background-color: black;
+  height: 50px;
+  color: white;
 }
