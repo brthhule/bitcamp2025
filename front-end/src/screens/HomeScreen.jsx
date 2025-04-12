@@ -1,47 +1,80 @@
 import { useNavigate } from "react-router-dom";
 import { Box, Typography, Button } from "@mui/material"; 
-import Calendar from 'react-calendar'
+import MonthDiv from "../components/MonthView";
+import localData from "../components/LocalData";
+import { convertMonthIndex } from "../util/utils";
+import { useState } from "react";
+import { useEffect } from "react";
+
+import "../styles/home-screen.css"
+
+
+
 
 export default function HomeScreen() {
     const navigate = useNavigate();
+    const [month, setMonth] = useState("");
+    const [year, setYear] = useState(0);
+
+    function updateLocDataMonth(newMonth) {
+        console.log("************************************")
+        console.log("Clicked" + newMonth)
+        localData.currentDate.setMonth(newMonth);
+        console.log("New month: " + localData.currentDate.getMonth())
+        setMonth(localData.currentDate.getMonth())
+        setYear(localData.currentDate.getFullYear())
+    }
+
+    function resetDate() {
+        localData.currentDate = new Date();
+        setMonth(localData.currentDate.getMonth())
+        setYear(localData.currentDate.getFullYear())
+    }
+
+    useEffect(() => {
+        setMonth(localData.currentDate.getMonth())
+        setYear(localData.currentDate.getFullYear())
+      }, []);
 
     return (
         <Box sx={{ p: 2 }}>
             {/* Header */}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
                 <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-                    Sentra
+
+                    <div style={{display: "flex", alignContent: "center"}}>
+                        <div className="reset-date" onClick={() => resetDate()}>
+                            sentra
+                        </div>
+                    </div>
+
+                    
                 </Typography>
             </Box>
 
-            {/* Calendar Title */}
+            {/* Calendar */}
             <Box>
-                <Typography variant="h5" sx={{ fontWeight: 'bold', mb: 2 }}>
-                    Calendar
-                </Typography>
-                <Typography variant="h7" sx={{ fontWeight: 'bold', mb: 2 }}>
-                    April 2024
-                </Typography>
-                <Calendar>
 
-                </Calendar>
 
-                <Box>
-                    <Box>
-                        Calendar
-                    </Box>
-
-                </Box>
+                <div style={{display: "flex"}}>
+                    <div className="prev-month" onClick={() => updateLocDataMonth(localData.currentDate.getMonth() - 1)}>
+                        <img src="/arrow-image.svg" style={{width: 20}}/>
+                    </div>
+                    <div style={{width: 20}}/>
+                    <Typography variant="h7" sx={{ fontWeight: 'bold', mb: 2 }}>
+                        {convertMonthIndex(month) + " " + year}
+                    </Typography>
+                    <div style={{width: 20}}/>
+                    <div className="next-month" onClick={() => updateLocDataMonth(localData.currentDate.getMonth() + 1)}>
+                        <img src="/arrow-image.svg" style={{width: 20, transform: "scaleX(-1)"}}/>
+                    </div>
+                </div>
                 
 
-            </Box>
-           
+                <MonthDiv/>
 
-            {/* Button Navigation */}
-            <Box onClick={() => navigate("/journal")} sx={{ cursor: "pointer",  mb: 2 }}>
-                <Button variant="contained">
-                    Make
-                </Button>
+
+                
             </Box>
         </Box>
     );

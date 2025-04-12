@@ -1,0 +1,21 @@
+.dayContainer {
+  flex: 50;
+  background-color: gray;
+}
+
+.text {
+  font-family: "Itim-Regular";
+  font-size: 15;
+  background-color: gray;
+  text-align: "center";
+}
+
+.container {
+  flex-direction: "row";
+  flex: 20;
+}
+
+.gap {
+  flex: 4;
+  background-color: white;
+}
