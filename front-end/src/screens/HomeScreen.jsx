@@ -14,7 +14,6 @@ export default function HomeScreen() {
     const [year, setYear] = useState(0);
 
     function updateLocDataMonth(newMonth) {
-        console.log("************************************")
         console.log("Clicked" + newMonth)
         localData.currentDate.setMonth(newMonth);
         console.log("New month: " + localData.currentDate.getMonth())
