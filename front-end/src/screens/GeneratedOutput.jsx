@@ -42,12 +42,10 @@ function GeneratedOutput() {
                       .then(res => {
                         console.log("res:")
                         console.log(res)
-                        res.blob()}
+                        // Date needs to be in year-month-day format, month and day double digit padded
+                        document.getElementById('output-img').src = `http://localhost:8000/images/${date}`;
+                            }
                         ) 
-                      .then(blob => {
-                        const url = URL.createObjectURL(blob);
-                        document.getElementById('output-img').src = url;
-                      });
 
                 } else {
                     setError('No journal entry found for this date.');
