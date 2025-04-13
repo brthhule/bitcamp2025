@@ -4,9 +4,10 @@ import axios from 'axios';
 const serverAddress = "http://localhost:3000";
 import { formatDate } from "../util/utils";
 import "../styles/Day.css"
+import { useEffect, useState } from "react";
 
 export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
-     /**
+    /**
          * Example: 10/4/24
          * date: 4
          * month: 10
@@ -14,18 +15,29 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
          * day: Fri
          */
     const date = weekDayNumbers[dayInTheWeek];
-    // Is this day
+    // Is this day within the currently viewed month?
     const isWithinMonth = daysWithinMonth[dayInTheWeek];
     const navigate = useNavigate();
     const currentDate= localData.currentDate;
     const prevDate= localData.prevDate;
+    const [isCurrentDay, setIsCurrentDay] = useState(false);
+
+    useEffect(() => {
+        const today = new Date();
+        setIsCurrentDay(
+            date === today.getDate() &&
+            currentDate.getMonth() === today.getMonth() &&
+            currentDate.getFullYear() === today.getFullYear() &&
+            isWithinMonth // Only consider it the current day if it's within the displayed month
+        );
+    }, [date, currentDate, isWithinMonth]);
 
     const dayEventsNumber = localData.getEventsNumber(
-        currentDate.getFullYear(), 
+        currentDate.getFullYear(),
         currentDate.getMonth(),
         weekDayNumbers[dayInTheWeek],
         daysWithinMonth[dayInTheWeek])
-    
+
     /**When the day button/box is clicked, reset date to previous one, navigate to Day screen */
         /**Modifier is needed when determining what a month is if a day is selected outside of the primary month
          * For example, if the Month being shown is April but the user picks May 1st, how does the computer know if the selected month is in April?
@@ -35,20 +47,20 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
          */
         async function goToDayScreen() {
             prevDate.setMonth(currentDate.getMonth(), currentDate.getDate());
-        
+
             let modifier = 0;
-            if (!isWithinMonth) { 
+            if (!isWithinMonth) {
                 modifier = (date < 15) ? 1 : -1;
             }
             currentDate.setMonth(currentDate.getMonth() + modifier, date)
             console.log("Selected date: " + currentDate)
             localData.dayEventsNumber = dayEventsNumber;
-        
+
             try {
                 const formattedDate = formatDate(currentDate);
                 // Check if entry exists
                 const response = await axios.get(`${serverAddress}/api/journal/exists?date=${formattedDate}`);
-                
+
                 if (response.data.exists) {
                     // If entry exists, go directly to generated output
                     navigate(`/generated-output/${formattedDate}`);
@@ -68,7 +80,7 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
         const date = weekDayNumbers[dayInTheWeek];
         monthNumber += 1;
         let modifier = 0;
-        if (!isWithinMonth) { 
+        if (!isWithinMonth) {
             modifier = (date < 15) ? 1 : -1;
             monthNumber += modifier;
         }
@@ -76,15 +88,16 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
     }
 
     return (
-        <div className="dayContainer" onClick={() => goToDayScreen()}>
-            <div className="dayTop" style={{backgroundColor: isWithinMonth? "#a9a488" : "#c9c5b1"}}>
+        <div
+            className={`dayContainer ${isCurrentDay ? 'currentDayOutline' : ''}`}
+            onClick={() => goToDayScreen()}
+        >
+            <div
+                className="dayTop"
+                style={{ backgroundColor: isWithinMonth ? "#ACA895" : "#DFDBC7" }}
+            >
                 <div className="topText">{detDayDate()}</div>
             </div>
         </div>
     )
-    
-        
 }
-
-
-

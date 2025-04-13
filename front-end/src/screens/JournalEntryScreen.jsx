@@ -64,7 +64,7 @@ const handleSubmit = async (event) => {
                 </Button>
 
                 <div style={{ flex: 1, fontSize: "50px", textAlign: "center", fontFamily: "Bestigia", color: '#000000' }}>
-                    DAILY LOG
+                    today's musings
                 </div>
                 <div className="calendar-button-container"> {}
                 <Button>
@@ -90,7 +90,7 @@ const handleSubmit = async (event) => {
                         type="text"
                         value={description}
                         onChange={handleDescriptionChange}
-                        placeholder="Enter log..."
+                        placeholder="paint a picture of your day..."
                     />
                 </div>
 

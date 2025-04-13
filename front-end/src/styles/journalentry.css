@@ -49,6 +49,7 @@ body {
   border-radius: 10px;
   font-family: "IBMPLexMono";
   resize: none;
+  color: #000000;
 }
 
 .create:hover {
