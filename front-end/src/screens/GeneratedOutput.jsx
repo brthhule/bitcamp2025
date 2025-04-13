@@ -30,23 +30,6 @@ function GeneratedOutput() {
                     setEntry(response.data.entry);
                     console.log("Sending over:")
                     console.log(response.data.entry.description)
-
-                    fetch('http://localhost:3000/analyze', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          text: response.data.entry.description,
-                          date: "2025-04-13"
-                        }),
-                      })
-                      .then(res => {
-                        console.log("res:")
-                        console.log(res)
-                        // Date needs to be in year-month-day format, month and day double digit padded
-                        document.getElementById('output-img').src = `http://localhost:8000/images/${date}`;
-                            }
-                        ) 
-
                 } else {
                     setError('No journal entry found for this date.');
                 }

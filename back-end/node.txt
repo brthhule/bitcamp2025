@@ -36,3 +36,24 @@ designing API endpoints
 implementing the data storage
 6. const journalEntries = {} (temporarily to store journal entires, data is lost though when server restarts)
 7. implement the API endpoints
+
+
+
+
+
+npm install axios chartjs-node-canvas
+Set the API key:
+
+bash
+Copy
+Edit
+export GEMINI_API_KEY=your_google_api_key
+Run the script:
+
+bash
+Copy
+Edit
+node script.js
+
+
+npm install axios canvas
