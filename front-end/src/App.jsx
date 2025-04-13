@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomeScreen />} />
         <Route path="/journal" element={<JournalEntryScreen />} />
-        <Route path="/generated-output/:date" element={<GeneratedOutput />} />     
+        <Route path="/generated-output" element={<GeneratedOutput />} />     
       </Routes>
 
     </Box>

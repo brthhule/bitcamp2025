@@ -6,6 +6,7 @@ import { convertMonthIndex } from "../util/utils";
 import axios from 'axios';
 import { Box, Typography, Button } from "@mui/material";
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import { formatDate } from "../util/utils";
 
 const serverAddress = "http://localhost:3000"; // Ensure this matches your backend port
 
@@ -15,12 +16,14 @@ export default function JournalEntryScreen() {
     const [monthIndex, setMonthIndex] = useState(0);
     const [date, setDate] = useState(0);
     const [year, setYear] = useState(0);
+    const dateString = formatDate(localData.currentDate)
 
     const handleDescriptionChange = (e) => {
         setDescription(e.target.value);
     };
 
 const handleSubmit = async (event) => {
+    
     event.preventDefault();
     
     if (!description) {
@@ -31,29 +34,48 @@ const handleSubmit = async (event) => {
     try {
         // Remove the redundant check - we already know an entry doesn't exist
         // Just create the entry directly
-        const dateString = `${year}-${(monthIndex + 1).toString().padStart(2, '0')}-${date.toString().padStart(2, '0')}`;
+       
+        console.log("Description: ")
+        console.log(description)
         
         const createResponse = await axios.post(`${serverAddress}/api/journal`, { 
             date: dateString, 
-            description 
+            description : description
         });
+        console.log("Res:")
+        console.log(createResponse)
 
         if (createResponse.status === 201) {
-            navigate(`/generated-output/${dateString}`);
+            console.log("Navigating to generated output screen")
+            navigate('/generated-output');
+            //alert("Going to generated-output")
         } else {
             alert('Failed to create journal entry.');
             console.error('Error creating journal entry:', createResponse);
         }
     } catch (error) {
-        alert('An error occurred while creating the journal entry.');
+        
         console.error('Error creating journal entry:', error);
+        alert('An error occurred while creating the journal entry.');
     }
 };
+
+    async function checkEntry() {
+        const checkState = await axios.post(`${serverAddress}/api/exists`, { 
+            date: dateString
+        });
+        if (checkState.data.exists == true) {
+            console.log("Navigating to generated-output")
+            navigate(`/generated-output`);
+        }
+    }
 
     useEffect(() => {
         setMonthIndex(localData.currentDate.getMonth());
         setYear(localData.currentDate.getFullYear());
         setDate(localData.currentDate.getDate());
+
+        checkEntry()
     }, []);
 
     function Header() {

@@ -1,75 +1,74 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../styles/generatedoutput.css";
-
-const serverAddress = "http://localhost:3000"; // Make sure this matches your backend
+import { serverAddress, formatDate } from '../util/utils';
+import LocalData from "../components/LocalData"
 
 function GeneratedOutput() {
-    const { date } = useParams();
     const [entry, setEntry] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sentimentChartUrl, setSentimentChartUrl] = useState(null);
     const navigate = useNavigate();
 
-    // Format date for display (from<ctrl3348>-MM-DD to MM/DD/YYYY)
-    const formatDisplayDate = (dateString) => {
-        if (!dateString) return '';
-        const parts = dateString.split('-');
-        if (parts.length !== 3) return dateString;
-        return `${parts[1]}/${parts[2]}/${parts[0]}`;
-    };
+
+    function SentimentAnalysis() {
+        if (sentimentChartUrl) {
+            return (
+                <div className="sentiment-chart-container">
+                    <h2>Sentiment Analysis</h2>
+                    <img src={sentimentChartUrl} alt="Daily Sentiment Pie Chart" className="sentiment-chart" />
+                </div>
+            )
+        }
+        return (
+            <div>
+                <h1>Unable to retrieve sentiment analysis data</h1>
+            </div>
+        )
+    }
+
+   
 
     useEffect(() => {
         const fetchJournalEntryAndSentimentChart = async () => {
-            setLoading(true);
-            setError(null);
-            setEntry(null);
-            setSentimentChartUrl(null);
-
             try {
-                const journalResponse = await axios.get(`${serverAddress}/api/journal/${date}`);
-                if (journalResponse.data.exists && journalResponse.data.entry) {
-                    setEntry(journalResponse.data.entry);
-                    console.log("Sending over for analysis:", journalResponse.data.entry.description);
-
-                    // Call the /analyze endpoint to get the sentiment chart
-                    const analyzeResponse = await axios.post(`${serverAddress}/analyze`, {
-                        text: journalResponse.data.entry.description,
-                        date: date,
-                    }, {
-                        responseType: 'blob' // Expecting an image blob
-                    });
-
-                    // Create a URL for the blob to display in an <img> tag
+                let currentDateFormatted = formatDate(LocalData.currentDate);
+                const checkEntryExists = await axios.post(`${serverAddress}/api/exists`, { date: currentDateFormatted });
+                
+                if (checkEntryExists.data.exists) {
+                    const serverEntry = await axios.post(`${serverAddress}/api/getEntry`, { date: currentDateFormatted });
+                    const fetchedDescription = serverEntry.data.entry.description;
+    
+                    setEntry(fetchedDescription);
+    
+                    /*const analyzeResponse = await axios.post(`${serverAddress}/api/getEntry`, { text: entry, date: currentDateFormatted })
                     const imageUrl = URL.createObjectURL(analyzeResponse.data);
                     setSentimentChartUrl(imageUrl);
-
+                    */
+                   
+    
                 } else {
-                    setError('No journal entry found for this date.');
+                    console.error("Entry does not exist");
                 }
             } catch (error) {
-                setError('Failed to fetch journal entry and sentiment chart.');
                 console.error('Error fetching data:', error);
+                setError('Failed to fetch journal entry and sentiment chart.');
             } finally {
                 setLoading(false);
             }
         };
+    
+        setLoading(true);
+        setError(null);
+        setEntry(null);
+        setSentimentChartUrl(null);
+        fetchJournalEntryAndSentimentChart();
+    
+    }, []); 
+    
 
-        if (date) {
-            fetchJournalEntryAndSentimentChart();
-        }
-    }, [date]);
-
-    useEffect(() => {
-        // Clean up the object URL when the component unmounts
-        return () => {
-            if (sentimentChartUrl) {
-                URL.revokeObjectURL(sentimentChartUrl);
-            }
-        };
-    }, [sentimentChartUrl]);
 
     if (loading) {
         return (
@@ -95,7 +94,7 @@ function GeneratedOutput() {
                     <img src="/arrow-image.svg" alt="Back" className="back-arrow" />
                 </button>
                 <div className="date-banner">
-                    {formatDisplayDate(date)}
+                    {formatDate(LocalData.currentDate)}
                 </div>
                 <div className="expand-button">
                     <img src="/expand-icon.png" alt="Expand" className="expand-icon" />
@@ -105,24 +104,21 @@ function GeneratedOutput() {
             <div className="entry-header">
                 <h1 className="entry-title">Entry</h1>
                 <div className="audio-icon">
-                    <img src="/audio-icon.svg" alt="Audio" />
+                    <img src="/audio-icon.png" alt="Audio" />
                 </div>
             </div>
 
             <div className="entry-content">
                 {entry ? (
-                    <p className="entry-description">{entry.description || 'No Description'}</p>
+                    <p className="entry-description">{entry || 'No Description'}</p>
                 ) : (
                     <p className="no-entry">No journal entry for this date.</p>
                 )}
             </div>
 
-            {sentimentChartUrl && (
-                <div className="sentiment-chart-container">
-                    <h2>Sentiment Analysis</h2>
-                    <img src={sentimentChartUrl} alt="Daily Sentiment Pie Chart" className="sentiment-chart" />
-                </div>
-            )}
+            <SentimentAnalysis/>
+            
+            <img src="/pie-chart.png" style={{width: "500px"}}></img>
 
             <div className="edit-container">
                 <button className="edit-button" > {/*onClick={() => navigate(`/journal/${date}`)}*/}

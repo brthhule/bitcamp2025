@@ -59,11 +59,11 @@ export default function Day({dayInTheWeek, weekDayNumbers, daysWithinMonth}) {
             try {
                 const formattedDate = formatDate(currentDate);
                 // Check if entry exists
-                const response = await axios.get(`${serverAddress}/api/journal/exists?date=${formattedDate}`);
+                const response = await axios.post(`${serverAddress}/api/exists`, {date: formattedDate});
 
                 if (response.data.exists) {
                     // If entry exists, go directly to generated output
-                    navigate(`/generated-output/${formattedDate}`);
+                    navigate('/generated-output');
                 } else {
                     // If no entry exists, go to journal entry creation page
                     navigate('/journal');
