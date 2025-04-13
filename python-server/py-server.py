@@ -8,11 +8,14 @@ import urllib.parse
 import google.generativeai as genai
 
 # Configure Gemini
-genai.configure(api_key="YOUR_API_KEY")
+genai.configure(api_key="AIzaSyCAV4afCsLUPyog9P5iNVRB8wtMdcZG5cc")
 model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
 # Sentiment analysis function
 def analyze_sentiment(text):
+    if not text.strip():
+        raise ValueError("Empty input provided.")
+
     prompt = f"""Analyze the sentiment of the following text and provide a score (as a percentage between 0% and 100%) for each of the following emotions: excited, bored, happy, sad, angry, and fearful. Return the scores in a clear format. Text: '{text}'"""
     try:
         response = model.generate_content(prompt)
@@ -38,7 +41,7 @@ def analyze_sentiment(text):
 def generate_image(score):
     color_mapping = {
         "excited": '#FFB292', "bored": '#CAB19C', "happy": '#FFFFA9',
-        "sad": '#C7EBFF", "angry": '#FF7B7B', "fearful": '#DDBFFF'
+        "sad": '#C7EBFF', "angry": '#FF7B7B', "fearful": '#DDBFFF'
     }
     width = height = 100
     image = Image.new("RGB", (width, height), "white")
@@ -68,12 +71,18 @@ class JournalSentimentHandler(BaseHTTPRequestHandler):
         text = post_data.get("text", [""])[0]
         date = post_data.get("date", [datetime.now().strftime("%Y-%m-%d")])[0]
 
-        # Analyze & generate image
-        score = analyze_sentiment(text)
-        if isinstance(score, str):  # Error occurred
+        try:
+            score = analyze_sentiment(text)
+            if isinstance(score, str):  # Error occurred inside analyze_sentiment
+                raise Exception(score)
+        except Exception as e:
+            print("Error during sentiment analysis or image generation:")
+            import traceback
+            traceback.print_exc()
+
             self.send_response(500)
             self.end_headers()
-            self.wfile.write(score.encode())
+            self.wfile.write(f"Internal server error: {e}".encode())
             return
 
         image = generate_image(score)
@@ -93,6 +102,32 @@ class JournalSentimentHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(image_data)))
         self.end_headers()
         self.wfile.write(image_data)
+    
+    def do_GET(self):
+    # Match URLs like /images/2025-04-13
+        match = re.match(r'^/images/(\d{4}-\d{2}-\d{2})$', self.path)
+        if match:
+            date_str = match.group(1)
+            image_path = f"journal_images/{date_str}.png"
+
+            if os.path.exists(image_path):
+                with open(image_path, 'rb') as f:
+                    image_data = f.read()
+
+                self.send_response(200)
+                self.send_header("Content-type", "image/png")
+                self.send_header("Content-Length", str(len(image_data)))
+                self.end_headers()
+                self.wfile.write(image_data)
+            else:
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write(b"Image not found.")
+        else:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b"Invalid URL format.")
+
 
 # Start server
 def run_server(port=8000):
@@ -103,3 +138,11 @@ def run_server(port=8000):
 
 if __name__ == "__main__":
     run_server()
+
+
+# For testing: 
+
+# Invoke-WebRequest -Uri http://localhost:8000 -Method POST `
+#  -Body "text=I'm so excited and a little nervous&date=2025-04-13" `
+#   -ContentType "application/x-www-form-urlencoded" `
+#  -OutFile "test.png"
