@@ -73,15 +73,15 @@ function GeneratedOutput() {
                     {formatDisplayDate(date)}
                 </div>
                 <div className="expand-button">
-                    <img src="/expand-icon.svg" alt="Expand" className="expand-icon" />
+                    <img src="/expand-icon.png" alt="Expand" className="expand-icon" />
                 </div>
             </div>
 
-            <div className="entry-section">
+            <div className="entry-section" style={{marginTop: "20px"}}>
                 <div className="entry-header">
                     <h1 className="entry-title">Entry</h1>
                     <div className="audio-icon">
-                        <img src="/audio-icon.svg" alt="Audio" />
+                        <img src="/audio-icon.png" alt="Audio" style={{height: "50px"}}/>
                     </div>
                 </div>
 
