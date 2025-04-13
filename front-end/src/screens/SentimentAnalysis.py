@@ -74,11 +74,23 @@ def generate_image(score, filename="colored_squares.png"):
     print(f"Image saved as {filename}")
 
 
+
 # generate_image(analyze_sentiment(text))
 # the text should be the description of each journal entry 
 # each generated output should have an image generated for it 
 # the name of the image, should be the date of the image of the jounral entry 
 # the images are all stored in a folder 
+
+
+# this is gonna take an array of scores (7 indecies for 7 days, each score is 
+# a score: ({happines, 80%}, {sadness, 20%}, ...) 
+
+
+# Each image has an underlying score dictionary, I want to store that in like some sort of data structure that I can pull and create statistics out of 
+# I can do this in js, but how do I send my scores from the python sentiment analysis.py to js to store it in some datastrucutre?
+# Once I constructure averages for the week, I can send back my averages to gemini api prompt to create an output with 3 things: 
+#   what emotion the person was mostly, commentary on that emotion, and remedies for a more negative emotion  
+
 
 # if __name__ == "__main__":
 #     text_to_analyze = "I like don't have anything to do today. Like there's nothing that really interests me and I'm just tired really.!"
@@ -91,8 +103,8 @@ def generate_image(score, filename="colored_squares.png"):
 
 
 # running my code in the current conda environment:
-# python /Users/swey/Documents/Projects/bitcamp2025/front-end/SentimentAnalysis.py 
-
+# python /Users/swey/Documents/Projects/bitcamp2025/front-end/SentimentAnalysis.py
+ 
 # # Example usage:
 # score1 = {"excited": 0.2, "happy": 0.8}
 # generate_image(score1, "image1.png")
@@ -106,5 +118,4 @@ def generate_image(score, filename="colored_squares.png"):
 # score4 = {"happy": 0.1, "sad": 0.9}
 # generate_image(score4, "image4.png")
 
-# python /Users/swey/Documents/Projects/bitcamp2025/front-end/ImageGenerator.py
 
