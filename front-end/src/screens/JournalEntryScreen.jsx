@@ -67,13 +67,11 @@ const handleSubmit = async (event) => {
                     today's musings
                 </div>
                 <div className="calendar-button-container"> {}
-                <Button>
                     <CalendarTodayIcon style={{ fontSize: 80, color: 'black' }} />
                     <div className="calendar-overlay-text"> {}
                         <div>{convertMonthIndex(monthIndex).substring(0,3) + " " + date}</div>
                         <div>{year}</div>
                     </div>
-                </Button>
             </div>
             </div>
         );

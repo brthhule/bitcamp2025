@@ -1,6 +1,7 @@
 .container {
   flex-direction: row;
   font-family: "IBMPlexMono";
+  color: black;
 }
 
 .columnGap {
