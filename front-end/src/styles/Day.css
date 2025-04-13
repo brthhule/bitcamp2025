@@ -1,5 +1,5 @@
 .dayContainer {
-  flex: 50;
+  flex: 30;
   flex-direction: column;
   border-radius: 10px;
 }
@@ -7,7 +7,8 @@
 .dayTop {
   flex: 20;
   align-items: center;
-  height: 60px;
+  width: 90px;
+  height: 90px;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -32,4 +33,8 @@
 .columnGap {
   flex: 4;
   background-color: #f8f6eb;
+}
+
+.currentDayOutline {
+  outline: 2.5px solid #4C4A3F;
 }
