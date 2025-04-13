@@ -10,9 +10,10 @@ function GeneratedOutput() {
     const [entry, setEntry] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [sentimentChartUrl, setSentimentChartUrl] = useState(null);
     const navigate = useNavigate();
 
-    // Format date for display (from YYYY-MM-DD to MM/DD/YYYY)
+    // Format date for display (from<ctrl3348>-MM-DD to MM/DD/YYYY)
     const formatDisplayDate = (dateString) => {
         if (!dateString) return '';
         const parts = dateString.split('-');
@@ -21,35 +22,59 @@ function GeneratedOutput() {
     };
 
     useEffect(() => {
-        const fetchJournalEntry = async () => {
+        const fetchJournalEntryAndSentimentChart = async () => {
             setLoading(true);
             setError(null);
+            setEntry(null);
+            setSentimentChartUrl(null);
+
             try {
-                const response = await axios.get(`${serverAddress}/api/journal/${date}`);
-                if (response.data.exists) {
-                    setEntry(response.data.entry);
-                    console.log("Sending over:")
-                    console.log(response.data.entry.description)
+                const journalResponse = await axios.get(`${serverAddress}/api/journal/${date}`);
+                if (journalResponse.data.exists && journalResponse.data.entry) {
+                    setEntry(journalResponse.data.entry);
+                    console.log("Sending over for analysis:", journalResponse.data.entry.description);
+
+                    // Call the /analyze endpoint to get the sentiment chart
+                    const analyzeResponse = await axios.post(`${serverAddress}/analyze`, {
+                        text: journalResponse.data.entry.description,
+                        date: date,
+                    }, {
+                        responseType: 'blob' // Expecting an image blob
+                    });
+
+                    // Create a URL for the blob to display in an <img> tag
+                    const imageUrl = URL.createObjectURL(analyzeResponse.data);
+                    setSentimentChartUrl(imageUrl);
+
                 } else {
                     setError('No journal entry found for this date.');
                 }
             } catch (error) {
-                setError('Failed to fetch journal entry.');
-                console.error('Error fetching journal entry:', error);
+                setError('Failed to fetch journal entry and sentiment chart.');
+                console.error('Error fetching data:', error);
             } finally {
                 setLoading(false);
             }
         };
 
         if (date) {
-            fetchJournalEntry();
+            fetchJournalEntryAndSentimentChart();
         }
     }, [date]);
+
+    useEffect(() => {
+        // Clean up the object URL when the component unmounts
+        return () => {
+            if (sentimentChartUrl) {
+                URL.revokeObjectURL(sentimentChartUrl);
+            }
+        };
+    }, [sentimentChartUrl]);
 
     if (loading) {
         return (
             <div className="loading-container">
-                <p className="loading-text">Loading journal entry...</p>
+                <p className="loading-text">Loading journal entry and analyzing sentiment...</p>
             </div>
         );
     }
@@ -91,6 +116,13 @@ function GeneratedOutput() {
                     <p className="no-entry">No journal entry for this date.</p>
                 )}
             </div>
+
+            {sentimentChartUrl && (
+                <div className="sentiment-chart-container">
+                    <h2>Sentiment Analysis</h2>
+                    <img src={sentimentChartUrl} alt="Daily Sentiment Pie Chart" className="sentiment-chart" />
+                </div>
+            )}
 
             <div className="edit-container">
                 <button className="edit-button" > {/*onClick={() => navigate(`/journal/${date}`)}*/}
