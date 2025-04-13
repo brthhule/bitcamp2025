@@ -56,9 +56,7 @@ function GeneratedOutput() {
         return (
             <div className="error-container">
                 <p className="error-text">Error: {error}</p>
-                <button className="back-button" onClick={() => navigate('/')}>
-                    <img src="/arrow-image.svg" alt="Back" className="back-arrow" />
-                </button>
+                <button className="back" onClick={() => navigate('/')}>Back to Calendar</button>
             </div>
         );
     }
@@ -77,25 +75,23 @@ function GeneratedOutput() {
                 </div>
             </div>
 
-            <div className="entry-section">
-                <div className="entry-header">
-                    <h1 className="entry-title">Entry</h1>
-                    <div className="audio-icon">
-                        <img src="/audio-icon.svg" alt="Audio" />
-                    </div>
-                </div>
-
-                <div className="entry-content">
-                    {entry ? (
-                        <p className="entry-description">{entry.description || 'No Description'}</p>
-                    ) : (
-                        <p className="no-entry">No journal entry for this date.</p>
-                    )}
+            <div className="entry-header">
+                <h1 className="entry-title">Entry</h1>
+                <div className="audio-icon">
+                    <img src="/audio-icon.svg" alt="Audio" />
                 </div>
             </div>
 
+            <div className="entry-content">
+                {entry ? (
+                    <p className="entry-description">{entry.description || 'No Description'}</p>
+                ) : (
+                    <p className="no-entry">No journal entry for this date.</p>
+                )}
+            </div>
+
             <div className="edit-container">
-                <button className="edit-button"> {/*onClick={() => navigate(`/journal/${date}`)}*/}
+                <button className="edit-button" > {/*onClick={() => navigate(`/journal/${date}`)}*/}
                     Edit Entry
                 </button>
             </div>
