@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const qs = require('querystring');
+const axios = require('axios')
+
 const port = 3000;
 
 app.use(cors()); // Enable CORS for all origins during development
@@ -55,3 +58,31 @@ app.post('/api/journal', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is listening on port ${port}`);
 });
+
+
+
+
+app.post('/analyze', async (req, res) => {
+    const { text, date } = req.body;
+    console.log("In /analyze")
+    console.log("Text:")
+    console.log(text)
+  
+    try {
+      const response = await axios.post(
+        'http://localhost:8000',
+        qs.stringify({ text, date }),
+        {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          responseType: 'arraybuffer', // for binary image
+        }
+      );
+  
+      res.setHeader('Content-Type', 'image/png');
+      res.send(Buffer.from(response.data, 'binary'));
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Error processing sentiment/image');
+    }
+  });
+  
